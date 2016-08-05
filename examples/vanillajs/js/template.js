@@ -109,6 +109,30 @@
 		}
 	};
 
+	Template.prototype.editControls = function () {
+		var container = document.createElement('div');
+		container.className = 'edit-controls';
+		var input = document.createElement('input');
+		input.className = 'edit';
+
+		var saveButton = document.createElement('button');
+		saveButton.innerHTML = '&#x2713;';
+		saveButton.className = 'save';
+
+		var cancelButton = document.createElement('button');
+		cancelButton.innerHTML = '&#x2717;';
+		cancelButton.className = 'cancel';
+
+		container.appendChild(input);
+		container.appendChild(saveButton);
+		container.appendChild(cancelButton);
+
+		return {
+			container: container,
+			input: input
+		};
+	}
+
 	// Export to window
 	window.app = window.app || {};
 	window.app.Template = Template;

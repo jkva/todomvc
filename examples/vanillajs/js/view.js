@@ -67,12 +67,12 @@
 
 		listItem.className = listItem.className + ' editing';
 
-		var input = document.createElement('input');
-		input.className = 'edit';
+		var editControls = this.template.editControls();
 
-		listItem.appendChild(input);
-		input.focus();
-		input.value = title;
+		listItem.appendChild(editControls.container);
+
+		editControls.input.focus();
+		editControls.input.value = title;
 	};
 
 	View.prototype._editItemDone = function (id, title) {
@@ -82,8 +82,8 @@
 			return;
 		}
 
-		var input = qs('input.edit', listItem);
-		listItem.removeChild(input);
+		var editControls = qs('.edit-controls', listItem);
+		listItem.removeChild(editControls);
 
 		listItem.className = listItem.className.replace('editing', '');
 
@@ -150,17 +150,28 @@
 			}
 		};
 
-		$delegate(self.$todoList, 'li input.save', 'click', saveHandler);
+		$delegate(self.$todoList, 'li .save', 'click', function (event) {
+			var input = qs('input.edit', this.parentNode);
+			saveHandler.call(input);
+		});
 
 		$delegate(self.$todoList, 'li input.edit', 'keypress', function (event) {
 			if (event.keyCode === self.ENTER_KEY) {
-                saveHandler.call(this);
+				saveHandler.call(this);
 			}
 		});
 	};
 
 	View.prototype._bindItemEditCancel = function (handler) {
 		var self = this;
+
+		$delegate(self.$todoList, 'li .cancel', 'click', function (event) {
+				this.dataset.iscanceled = true;
+				this.blur();
+
+				handler({id: self._itemId(this)});
+		});
+
 		$delegate(self.$todoList, 'li input.edit', 'keyup', function (event) {
 			if (event.keyCode === self.ESCAPE_KEY) {
 				this.dataset.iscanceled = true;
