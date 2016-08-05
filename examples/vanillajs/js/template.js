@@ -35,8 +35,8 @@
 		+		'<div class="view">'
 		+			'<input class="toggle" type="checkbox" {{checked}}>'
 		+			'<label>{{title}}</label>'
-		+			'<button class="edit">&#x270e;</button>'
-		+			'<button class="destroy">&#xd7;</button>'
+		+			'<button aria-label="Edit to-do" class="edit">&#x270e;</button>'
+		+			'<button aria-label="Delete to-do" class="destroy">&#xd7;</button>'
 		+		'</div>'
 		+	'</li>';
 	}
@@ -116,11 +116,12 @@
 		input.className = 'edit';
 
 		var saveButton = document.createElement('button');
-		saveButton.innerHTML = '&#x2713;';
+		saveButton.innerHTML = '<span class="assistive">Save changes</span>&#x2713;';
 		saveButton.className = 'save';
 
 		var cancelButton = document.createElement('button');
 		cancelButton.innerHTML = '&#x2717;';
+		cancelButton.setAttribute('aria-label', 'Cancel changes');
 		cancelButton.className = 'cancel';
 
 		container.appendChild(input);
