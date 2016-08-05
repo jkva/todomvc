@@ -234,6 +234,7 @@
     Controller.prototype.filterItems = function (filter) {
         qs('footer').setAttribute('data-filter', filter);
         this._filter();
+        this.view.render('itemFilterDone', filter);
     };
 
 	/**

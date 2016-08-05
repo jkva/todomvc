@@ -87,6 +87,14 @@
 		});
 	};
 
+	View.prototype._itemFilterDone = function (filter) {
+		qsa('.filters button').forEach( function (button) {
+			button.setAttribute('aria-pressed', 'false');
+		});
+
+		qs('.filters [data-filter="' + filter + '"]').setAttribute('aria-pressed', 'true');
+	};
+
 	View.prototype.render = function (viewCmd, parameter) {
 		var self = this;
 		var viewCommands = {
@@ -119,6 +127,9 @@
 			},
 			editItemDone: function () {
 				self._editItemDone(parameter.id, parameter.title);
+			},
+			itemFilterDone: function () {
+				self._itemFilterDone(parameter)
 			}
 		};
 
