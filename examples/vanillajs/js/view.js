@@ -140,27 +140,28 @@
 
 	View.prototype._bindItemEditDone = function (handler) {
 		var self = this;
-		$delegate(self.$todoList, 'li .edit', 'blur', function () {
+
+		var saveHandler = function () {
 			if (!this.dataset.iscanceled) {
 				handler({
 					id: self._itemId(this),
 					title: this.value
 				});
 			}
-		});
+		};
 
-		$delegate(self.$todoList, 'li .edit', 'keypress', function (event) {
+		$delegate(self.$todoList, 'li input.save', 'click', saveHandler);
+
+		$delegate(self.$todoList, 'li input.edit', 'keypress', function (event) {
 			if (event.keyCode === self.ENTER_KEY) {
-				// Remove the cursor from the input when you hit enter just like if it
-				// were a real form
-				this.blur();
+                saveHandler.call(this);
 			}
 		});
 	};
 
 	View.prototype._bindItemEditCancel = function (handler) {
 		var self = this;
-		$delegate(self.$todoList, 'li .edit', 'keyup', function (event) {
+		$delegate(self.$todoList, 'li input.edit', 'keyup', function (event) {
 			if (event.keyCode === self.ESCAPE_KEY) {
 				this.dataset.iscanceled = true;
 				this.blur();
@@ -188,12 +189,12 @@
 			});
 
 		} else if (event === 'itemEdit') {
-			$delegate(self.$todoList, 'li label', 'dblclick', function () {
+			$delegate(self.$todoList, 'button.edit', 'click', function () {
 				handler({id: self._itemId(this)});
 			});
 
 		} else if (event === 'itemRemove') {
-			$delegate(self.$todoList, '.destroy', 'click', function () {
+			$delegate(self.$todoList, 'button.destroy', 'click', function () {
 				handler({id: self._itemId(this)});
 			});
 
