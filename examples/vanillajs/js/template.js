@@ -33,8 +33,8 @@
 		this.defaultTemplate
 		=	'<li data-id="{{id}}" class="{{completed}}">'
 		+		'<div class="view">'
-		+			'<input class="toggle" type="checkbox" {{checked}}>'
-		+			'<label>{{title}}</label>'
+		+			'<input id="to-do-{{id}}" class="toggle" type="checkbox" {{checked}}>'
+		+			'<label for="to-do-{{id}}">{{title}}</label>'
 		+			'<button aria-label="Edit to-do" class="edit">&#x270e;</button>'
 		+			'<button aria-label="Delete to-do" class="destroy">&#xd7;</button>'
 		+		'</div>'
@@ -72,7 +72,7 @@
 				checked = 'checked';
 			}
 
-			template = template.replace('{{id}}', data[i].id);
+			template = template.replace(/\{\{id\}\}/g, data[i].id);
 			template = template.replace('{{title}}', escape(data[i].title));
 			template = template.replace('{{completed}}', completed);
 			template = template.replace('{{checked}}', checked);
