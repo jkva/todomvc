@@ -40,11 +40,6 @@
 		this.$clearCompleted.style.display = visible ? 'block' : 'none';
 	};
 
-	View.prototype._setFilter = function (currentPage) {
-		qs('.filters .selected').className = '';
-		qs('.filters [href="#/' + currentPage + '"]').className = 'selected';
-	};
-
 	View.prototype._elementComplete = function (id, completed) {
 		var listItem = qs('[data-id="' + id + '"]');
 
@@ -112,9 +107,6 @@
 			},
 			toggleAll: function () {
 				self.$toggleAll.checked = parameter.checked;
-			},
-			setFilter: function () {
-				self._setFilter(parameter);
 			},
 			clearNewTodo: function () {
 				self.$newTodo.value = '';
@@ -215,6 +207,11 @@
 					id: self._itemId(this),
 					completed: this.checked
 				});
+			});
+
+		} else if (event === 'itemFilter') {
+				$delegate(document.body, '.filters button', 'click', function () {
+					handler(this.getAttribute('data-filter'));
 			});
 
 		} else if (event === 'itemEditDone') {

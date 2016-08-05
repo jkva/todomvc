@@ -44,6 +44,10 @@
 		self.view.bind('toggleAll', function (status) {
 			self.toggleAll(status.completed);
 		});
+
+        self.view.bind('itemFilter', function (filter) {
+            self.filterItems(filter);
+        });
 	}
 
 	/**
@@ -227,12 +231,18 @@
 		});
 	};
 
+    Controller.prototype.filterItems = function (filter) {
+        qs('footer').setAttribute('data-filter', filter);
+        this._filter();
+    };
+
 	/**
 	 * Re-filters the todo items, based on the active route.
 	 * @param {boolean|undefined} force  forces a re-painting of todo items.
 	 */
 	Controller.prototype._filter = function (force) {
-		var activeRoute = this._activeRoute.charAt(0).toUpperCase() + this._activeRoute.substr(1);
+        var currentFilter = qs('footer').getAttribute('data-filter');
+		var activeRoute = currentFilter.charAt(0).toUpperCase() + currentFilter.substr(1);
 
 		// Update the elements on the page, which change with each completed todo
 		this._updateCount();
@@ -260,8 +270,6 @@
 		}
 
 		this._filter();
-
-		this.view.render('setFilter', currentPage);
 	};
 
 	// Export to window
